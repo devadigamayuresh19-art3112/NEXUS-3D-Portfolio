@@ -934,7 +934,10 @@
   mask-image: radial-gradient(circle at 50% 20%, black, transparent 72%);
 }
 
-.project-detail > :not(.project-detail__bg):not(.project-detail__grid-bg) {
+/* Backgrounds are fixed and the page rail must stay fixed too; everything
+   else is lifted above the backdrop. */
+.project-detail
+  > :not(.project-detail__bg):not(.project-detail__grid-bg):not(.project-detail__rail) {
   position: relative;
   z-index: 1;
 }
@@ -968,8 +971,8 @@
   gap: 8px;
   color: var(--text-secondary);
   font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: color 0.3s ease;
 }
@@ -1020,8 +1023,8 @@
   gap: 12px;
   color: var(--text-dim);
   font-family: var(--font-mono);
-  font-size: 7.5px;
-  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -1047,8 +1050,8 @@
   margin-top: 14px;
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.16em;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -1056,8 +1059,8 @@
   max-width: 56ch;
   margin-top: 20px;
   color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.85;
+  font-size: 15px;
+  line-height: 1.8;
 }
 
 .project-detail__tech {
@@ -1076,8 +1079,8 @@
 }
 
 .project-detail__actions .mono {
-  max-width: 240px;
-  font-size: 8px;
+  max-width: 260px;
+  font-size: 10.5px;
   line-height: 1.6;
   letter-spacing: 0.06em;
 }
@@ -1114,7 +1117,7 @@
 
 .project-detail__aside-block strong {
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 400;
   line-height: 1.5;
 }
@@ -1133,8 +1136,8 @@
 .project-detail__aside-note p {
   margin-top: 8px;
   color: var(--text-dim);
-  font-size: 10px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.65;
 }
 
 .project-detail__content {
@@ -1155,8 +1158,8 @@
 .project-detail__section p {
   max-width: 68ch;
   color: var(--text-secondary);
-  font-size: 13.5px;
-  line-height: 1.9;
+  font-size: 15px;
+  line-height: 1.85;
 }
 
 .project-detail__features {
@@ -1172,14 +1175,14 @@
   padding: 13px 0;
   border-bottom: 1px solid var(--border-soft);
   color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 14.5px;
+  line-height: 1.65;
 }
 
 .project-detail__features li span {
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .project-detail__stack {
@@ -1197,8 +1200,8 @@
   border-radius: 999px;
   color: var(--text-secondary);
   font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.08em;
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
@@ -1228,7 +1231,7 @@
   display: block;
   margin-bottom: 9px;
   color: var(--text-dim);
-  font-size: 6.5px;
+  font-size: 10.5px;
 }
 
 .project-detail__screen-empty {
@@ -1248,21 +1251,21 @@
 .project-detail__screen-empty span {
   color: var(--accent);
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 24px;
   letter-spacing: -0.04em;
 }
 
 .project-detail__screen-empty small {
-  max-width: 170px;
+  max-width: 190px;
   color: var(--text-dim);
-  font-size: 9px;
-  line-height: 1.5;
+  font-size: 11.5px;
+  line-height: 1.55;
 }
 
 .project-detail__note {
   margin-top: 12px;
   color: var(--text-dim);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.7;
 }
 
@@ -1297,8 +1300,8 @@
 
 .project-detail__link-card small {
   color: var(--text-dim);
-  font-size: 9.5px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.65;
 }
 
 .project-detail__footer {
@@ -1351,6 +1354,18 @@
 .project-detail__rail span.is-active {
   background: var(--secondary);
   box-shadow: 0 0 10px rgba(255, 178, 122, 0.8);
+}
+
+/* Micro labels on the case-study pages sit on a dark, busy background, so
+   they need to clear 10px even on wide screens. */
+.project-detail .eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+}
+
+.project-detail .status-dot,
+.project-detail .chip {
+  font-size: 10.5px;
 }
 
 @media (max-width: 980px) {
@@ -1472,5 +1487,119 @@
 
   .project-detail__back {
     font-size: 7px;
+  }
+}
+
+/* Mobile readability for the case-study pages. The mock browser chrome stays
+   decorative, but every real label, note and body copy gets a legible size. */
+@media (max-width: 680px) {
+  .project-detail__back {
+    min-height: 40px;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+  }
+
+  .project-detail__meta {
+    gap: 10px;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+  }
+
+  .project-detail__tagline {
+    margin-top: 12px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  .project-detail__description {
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .project-detail__actions {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .project-detail__actions .mono {
+    max-width: 100%;
+    font-size: 10.5px;
+  }
+
+  .project-detail__aside {
+    gap: 16px;
+  }
+
+  .project-detail__aside-block strong {
+    font-size: 14px;
+  }
+
+  .project-detail__aside-note p {
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+
+  .project-detail__section p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .project-detail__features li {
+    padding: 12px 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .project-detail__features li span {
+    font-size: 12px;
+  }
+
+  .project-detail__stack {
+    gap: 6px;
+  }
+
+  .project-detail__stack-item {
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .project-detail__screens {
+    gap: 10px;
+  }
+
+  .project-detail__screen > .mono {
+    font-size: 10.5px;
+  }
+
+  .project-detail__screen-empty small {
+    font-size: 11.5px;
+  }
+
+  .project-detail__note {
+    font-size: 12px;
+  }
+
+  .project-detail__link-card {
+    padding: 16px;
+  }
+
+  .project-detail__link-card small {
+    font-size: 12px;
+  }
+
+  .project-detail__next {
+    font-size: 26px;
+  }
+
+  .project-detail__footer {
+    padding: 30px 0 48px;
+  }
+
+  /* Decorative browser chrome: still small, but no longer unreadable. */
+  .project-visual__topbar,
+  .project-visual__bottombar {
+    font-size: 8px;
   }
 }

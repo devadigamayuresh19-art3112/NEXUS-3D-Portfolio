@@ -44,7 +44,9 @@ export const createTextTexture = (
   const measureCtx = measureCanvas.getContext('2d')
   measureCtx.font = `${weight} ${fontSize}px "${font}", sans-serif`
   const width = Math.ceil(measureCtx.measureText(text).width + padding * 2)
-  const height = Math.ceil(fontSize * 1.35 + padding)
+  // Keep the glyph large within the texture: the sprite footprint stays the
+  // same, but more of it is actual text instead of empty padding.
+  const height = Math.ceil(fontSize * 1.12 + padding)
   const canvas = makeCanvas(Math.max(width, 64), Math.max(height, 64))
   const ctx = canvas.getContext('2d')
   ctx.font = `${weight} ${fontSize}px "${font}", sans-serif`
@@ -52,6 +54,13 @@ export const createTextTexture = (
   ctx.textBaseline = 'middle'
   ctx.fillStyle = color
   if (letterSpacing && 'letterSpacing' in ctx) ctx.letterSpacing = `${letterSpacing}px`
+  // Draw a soft dark halo first, then the text again without the shadow so
+  // the glyph edges stay crisp.
+  ctx.shadowColor = 'rgba(5, 6, 12, 0.95)'
+  ctx.shadowBlur = Math.round(fontSize * 0.3)
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2)
+  ctx.shadowColor = 'transparent'
+  ctx.shadowBlur = 0
   ctx.fillText(text, canvas.width / 2, canvas.height / 2)
   const texture = finishTexture(new THREE.CanvasTexture(canvas))
   return {

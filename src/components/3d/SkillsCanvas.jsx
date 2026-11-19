@@ -47,10 +47,10 @@ function useLabelTexture(text) {
   const label = useMemo(
     () =>
       createTextTexture(text, {
-        fontSize: 42,
-        weight: 500,
+        fontSize: 46,
+        weight: 600,
         font: 'Inter',
-        color: '#f5f5f7',
+        color: '#f7f5f1',
         padding: 18,
       }),
     [text],
@@ -68,6 +68,7 @@ function TechNode({
   hovered,
   selected,
   dimmed,
+  compact,
   onHover,
   onSelect,
 }) {
@@ -80,6 +81,12 @@ function TechNode({
 
   const isPaused = hovered === tech.name || selected === tech.name
   const isActive = hovered === tech.name || selected === tech.name
+  // On a narrow canvas 21 labels collide into an unreadable cloud. Keep the
+  // dots and reveal only the label for the node the visitor touches.
+  const showLabel = !compact || isActive
+  // Alternating above/below halves label-on-label collisions on wide screens.
+  const labelY = compact ? 0.4 : index % 2 === 0 ? 0.34 : -0.34
+  const labelHeight = compact ? 0.36 : 0.24
 
   useFrame((state, delta) => {
     if (!ref.current) return
@@ -138,11 +145,15 @@ function TechNode({
           depthWrite={false}
         />
       </mesh>
-      <sprite position={[0, 0.31, 0]} scale={[0.2 * label.aspect, 0.2, 1]}>
+      <sprite
+        visible={showLabel}
+        position={[0, labelY, 0]}
+        scale={[labelHeight * label.aspect, labelHeight, 1]}
+      >
         <spriteMaterial
           map={label.texture}
           transparent
-          opacity={dimmed ? 0.12 : isActive ? 1 : 0.62}
+          opacity={dimmed ? 0.12 : isActive ? 1 : 0.9}
           depthWrite={false}
           toneMapped={false}
         />
@@ -248,6 +259,24 @@ function MatrixCore({ glowTexture }) {
   )
 }
 
+// Keeps the outermost orbit inside the frame when the canvas is narrow, so a
+// phone still sees the whole constellation instead of a cropped centre.
+function CameraFit() {
+  const { camera, size } = useThree()
+
+  useEffect(() => {
+    const aspect = Math.max(size.width / Math.max(size.height, 1), 0.55)
+    const fov = 42
+    // Desktop needs a little extra room so outer labels aren't clipped.
+    const fitWidth = size.width < 640 ? 9 : 9.6
+    const needed = fitWidth / (2 * Math.tan((fov * Math.PI) / 360) * aspect)
+    camera.position.z = Math.min(14, Math.max(9, needed))
+    camera.updateProjectionMatrix()
+  }, [camera, size.width, size.height])
+
+  return null
+}
+
 function CameraDrift() {
   const { camera } = useThree()
   const look = useRef(new THREE.Vector3(0, 0, 0))
@@ -266,6 +295,8 @@ function CameraDrift() {
 }
 
 function SceneContent({ hovered, selected, filter, onHover, onSelect }) {
+  const { size } = useThree()
+  const compact = size.width < 640
   const glowTexture = useMemo(() => createDotTexture(), [])
   useEffect(() => () => glowTexture.dispose(), [glowTexture])
 
@@ -290,6 +321,7 @@ function SceneContent({ hovered, selected, filter, onHover, onSelect }) {
       <pointLight position={[-5, -3, 4]} intensity={26} color="#00cfff" distance={20} />
       <pointLight position={[0, 0, 5]} intensity={18} color="#a78bfa" distance={12} />
 
+      <CameraFit />
       <CameraDrift />
       <MatrixCore glowTexture={glowTexture} />
 
@@ -313,6 +345,7 @@ function SceneContent({ hovered, selected, filter, onHover, onSelect }) {
           hovered={hovered?.name}
           selected={selected?.name}
           dimmed={filter !== 'All' && filter !== tech.group}
+          compact={compact}
           onHover={onHover}
           onSelect={onSelect}
         />

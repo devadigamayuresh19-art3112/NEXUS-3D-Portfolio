@@ -8,6 +8,7 @@ import Experience from '../components/sections/Experience'
 import Achievements from '../components/sections/Achievements'
 import Contact from '../components/sections/Contact'
 import SceneBoundary from '../components/3d/SceneBoundary'
+import ScrollFX from '../components/ui/ScrollFX'
 import { ScrollTrigger } from '../lib/motion'
 import { supportsWebGL2 } from '../lib/webgl'
 import useActiveSection from '../hooks/useActiveSection'
@@ -91,6 +92,8 @@ export default function Home({ introDone }) {
           <span>Mayuresh Devadiga</span>
         </div>
       </div>
+
+      <ScrollFX enabled={introDone} />
     </main>
   )
 }

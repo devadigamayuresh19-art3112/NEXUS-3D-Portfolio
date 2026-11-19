@@ -1,0 +1,379 @@
+.scroll-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  overflow: clip;
+  pointer-events: none;
+}
+
+/* Manga focus lines that fade in with scroll velocity. */
+.scroll-fx__speed {
+  position: absolute;
+  inset: -12%;
+  opacity: 0;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 44%,
+    transparent 0deg 3.1deg,
+    rgba(244, 240, 232, 0.16) 3.25deg 3.55deg,
+    transparent 3.7deg 7.2deg
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 62% 58% at 50% 44%,
+    transparent 40%,
+    #000 76%
+  );
+  mask-image: radial-gradient(
+    ellipse 62% 58% at 50% 44%,
+    transparent 40%,
+    #000 76%
+  );
+  mix-blend-mode: screen;
+  transition: opacity 0.45s var(--ease-out);
+  will-change: opacity;
+}
+
+/* Blossom rain canvas. */
+.scroll-fx__petals {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+}
+
+.scroll-fx__petals.is-live {
+  opacity: 0.82;
+}
+
+/* ------------------------------------------------------------------ */
+/* Masked speedster                                                    */
+/* ------------------------------------------------------------------ */
+
+.scroll-fx__hero {
+  position: absolute;
+  left: 0;
+  top: 24vh;
+  width: clamp(200px, 22vw, 340px);
+  opacity: 0;
+  filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.42));
+  will-change: transform, opacity;
+}
+
+.fx-hero-figure {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.fx-runner-body {
+  fill: none;
+  stroke: rgba(244, 240, 232, 0.92);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fx-runner-body circle {
+  fill: #0b0a08;
+}
+
+.fx-runner-torso {
+  fill: #0b0a08;
+}
+
+.fx-runner-hair {
+  fill: rgba(207, 194, 255, 0.22);
+}
+
+.fx-runner-mask {
+  fill: var(--secondary);
+  stroke: none;
+}
+
+.fx-runner-cape {
+  fill: rgba(143, 123, 255, 0.3);
+  stroke: rgba(207, 194, 255, 0.65);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.fx-runner-scarf {
+  fill: rgba(255, 178, 122, 0.88);
+  stroke: rgba(255, 213, 184, 0.7);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.fx-runner-lines path {
+  stroke: rgba(244, 240, 232, 0.7);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.fx-runner-foot {
+  fill: none;
+  stroke: rgba(255, 178, 122, 0.75);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Comic burst behind the runner. */
+.fx-hero-burst {
+  position: absolute;
+  left: 24%;
+  top: -6%;
+  width: 78%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.6) rotate(-10deg);
+  transform-origin: 50% 50%;
+}
+
+.fx-hero-burst::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(140deg, #ffb27a 8%, #ffd8bf 55%, #cfc2ff 100%);
+  clip-path: polygon(
+    50% 0%,
+    59% 26%,
+    82% 8%,
+    74% 33%,
+    100% 38%,
+    77% 52%,
+    96% 72%,
+    68% 66%,
+    68% 96%,
+    52% 72%,
+    34% 100%,
+    33% 69%,
+    6% 82%,
+    23% 58%,
+    0% 42%,
+    28% 38%,
+    20% 11%,
+    42% 27%
+  );
+}
+
+.fx-hero-burst span {
+  position: relative;
+  z-index: 1;
+  color: #17110c;
+  font-family: var(--font-display);
+  font-size: clamp(13px, 1.7vw, 22px);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+}
+
+.fx-hero-lines {
+  position: absolute;
+  right: 88%;
+  top: 38%;
+  width: min(34vw, 420px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+}
+
+.fx-hero-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    270deg,
+    rgba(255, 178, 122, 0.9),
+    rgba(255, 178, 122, 0)
+  );
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+
+.fx-hero-line:nth-child(2) {
+  width: 62%;
+  opacity: 0.7;
+}
+
+.fx-hero-line:nth-child(3) {
+  width: 84%;
+}
+
+.fx-hero-line:nth-child(4) {
+  width: 46%;
+  opacity: 0.55;
+}
+
+/* ------------------------------------------------------------------ */
+/* Neon car                                                            */
+/* ------------------------------------------------------------------ */
+
+.scroll-fx__car {
+  position: absolute;
+  left: 0;
+  bottom: 11vh;
+  width: clamp(210px, 24vw, 370px);
+  opacity: 0;
+  filter: drop-shadow(0 24px 34px rgba(0, 0, 0, 0.5));
+  will-change: transform, opacity;
+}
+
+.fx-car-figure {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.fx-car-body {
+  fill: rgba(10, 9, 8, 0.94);
+  stroke: rgba(255, 178, 122, 0.9);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.fx-car-window {
+  fill: rgba(143, 123, 255, 0.26);
+  stroke: rgba(207, 194, 255, 0.55);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.fx-car-detail {
+  fill: none;
+  stroke: rgba(244, 240, 232, 0.32);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.fx-car-light {
+  fill: none;
+  stroke: #ffe3c4;
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(255, 227, 196, 0.95));
+}
+
+.fx-car-tail {
+  fill: none;
+  stroke: #ff8a8a;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.fx-car-wheel {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.fx-car-wheel circle {
+  fill: #0a0908;
+  stroke: rgba(244, 240, 232, 0.85);
+  stroke-width: 2;
+}
+
+.fx-car-wheel path {
+  fill: none;
+  stroke: rgba(255, 178, 122, 0.6);
+  stroke-width: 1.5;
+}
+
+.fx-car-glow {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 178, 122, 0.55),
+    rgba(143, 123, 255, 0.2) 45%,
+    transparent 72%
+  );
+  filter: blur(8px);
+}
+
+.fx-car-trails {
+  position: absolute;
+  left: 92%;
+  top: 52%;
+  width: 46vw;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.fx-car-trail {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 178, 122, 0.85),
+    rgba(143, 123, 255, 0.25) 45%,
+    transparent 92%
+  );
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.fx-car-trail:nth-child(2) {
+  width: 70%;
+  opacity: 0.7;
+}
+
+.fx-car-trail:nth-child(3) {
+  width: 88%;
+  opacity: 0.5;
+}
+
+.fx-car-caption {
+  position: absolute;
+  left: 2%;
+  top: -26%;
+  color: var(--secondary);
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(10px);
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
+}
+
+@media (max-width: 760px) {
+  .scroll-fx__hero {
+    top: 32vh;
+    width: clamp(170px, 46vw, 240px);
+  }
+
+  .fx-hero-lines {
+    width: 42vw;
+  }
+
+  .fx-hero-burst {
+    left: 16%;
+    width: 88%;
+  }
+
+  .scroll-fx__car {
+    bottom: 15vh;
+    width: clamp(190px, 58vw, 280px);
+  }
+
+  .fx-car-trails {
+    width: 55vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-fx {
+    display: none;
+  }
+}
